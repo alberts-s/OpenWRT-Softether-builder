@@ -4,6 +4,7 @@ PATH_MAIN=/vm/1/openwrt
 CONFIGS=/vm/1/openwrt/openwrt_configs
 PACKAGES=/vm/1/openwrt/packs
 BUILDROOT=/vm/1/openwrt/barrier_breaker
+CORES=2
 
 cleaner (){
 	rm -rf $BUILDROOT
@@ -20,8 +21,8 @@ construct_mips(){
 
 get_ipk(){
 	cd $BUILDROOT
-	make prepare -j2
-	make package/softethervpn/compile V=99 -j2
+	make prepare -j$CORES
+	make package/softethervpn/compile V=99 -j$CORES
 	find $BUILDROOT -name "softether*.ipk" -type f -exec /bin/mv {} $PACKAGES/ \;
 }
 
