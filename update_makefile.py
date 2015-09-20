@@ -2,8 +2,10 @@ from bs4 import BeautifulSoup
 import re
 import hashlib
 import requests as req
+import sys
 
-PathToMakefile = "/home/alberts00/projects/OpenWRT-package-softether/softethervpn/Makefile"
+PathToMakefile = sys.argv[1]
+#PathToMakefile = "/home/alberts00/projects/OpenWRT-package-softether/softethervpn/Makefile"
 
 
 def getSource(buildnum, cycle ,vernum, datenum):

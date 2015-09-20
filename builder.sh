@@ -1,9 +1,12 @@
 #!/bin/bash
 
+BUILDFOR=$1
+##barrier_breaker or chaos_calmer
 PATH_MAIN=/vm/1/openwrt
 CONFIGS=/vm/1/openwrt/openwrt_configs
 PACKAGES=/vm/1/openwrt/packs
-BUILDROOT=/vm/1/openwrt/barrier_breaker
+BUILDROOT=/vm/1/openwrt/$BUILDFOR
+MAKEFILE=/tmp/OpenWRT-package-softether/softethervpn/Makefile
 CORES=2
 
 cleaner (){
@@ -12,9 +15,9 @@ cleaner (){
 
 construct_mips(){
 	cd $PATH_MAIN
-	svn co svn://svn.openwrt.org/openwrt/branches/barrier_breaker
-	cd barrier_breaker
-	echo "src-git softethervpn https://github.com/alberts00/OpenWRT-package-softether.git" >> feeds.conf.default
+	svn co svn://svn.openwrt.org/openwrt/branches/$BUILDFOR
+	cd $BUILDFOR
+	echo "src-cpy softethervpn /tmp/OpenWRT-package-softether" >> feeds.conf.default
 	./scripts/feeds update
 	./scripts/feeds install softethervpn
 }
@@ -30,6 +33,8 @@ get_ipk(){
 
 cd $PATH_MAIN
 
+git clone https://github.com/Alberts00/OpenWRT-package-softether /tmp/OpenWRT-package-softether
+python3
 
 construct_mips
 cp $CONFIGS/.config_ar71xx $BUILDROOT/.config
@@ -55,4 +60,6 @@ construct_mips
 cp $CONFIGS/.config_ramips_24ksec $BUILDROOT/.config
 get_ipk
 cleaner
+
+rm -rf /tmp/OpenWRT-package-softether
 
