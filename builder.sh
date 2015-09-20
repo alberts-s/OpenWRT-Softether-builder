@@ -3,10 +3,11 @@
 BUILDFOR=$1
 ##barrier_breaker or chaos_calmer
 PATH_MAIN=/vm/1/openwrt
-CONFIGS=/vm/1/openwrt/openwrt_configs
+CONFIGS=/vm/1/openwrt/OpenWRT-Softether-builder/openwrt_configs
 PACKAGES=/vm/1/openwrt/packs
 BUILDROOT=/vm/1/openwrt/$BUILDFOR
 MAKEFILE=/tmp/OpenWRT-package-softether/softethervpn/Makefile
+UPDATEMAKEFILE=/vm/1/openwrt/OpenWRT-Softether-builder/update_makefile.py
 CORES=2
 
 cleaner (){
@@ -34,7 +35,7 @@ get_ipk(){
 cd $PATH_MAIN
 
 git clone https://github.com/Alberts00/OpenWRT-package-softether /tmp/OpenWRT-package-softether
-python3
+python3 $UPDATEMAKEFILE $MAKEFILE
 
 construct_mips
 cp $CONFIGS/.config_ar71xx $BUILDROOT/.config
