@@ -4,11 +4,11 @@ BUILDFOR=$1
 ##barrier_breaker or chaos_calmer
 PATH_MAIN=/vm/1/openwrt
 CONFIGS=/vm/1/openwrt/OpenWRT-Softether-builder/openwrt_configs
-PACKAGES=/vm/1/openwrt/packs
+PACKAGES=/vm/1/openwrt/packs/$BUILDFOR/
 BUILDROOT=/vm/1/openwrt/$BUILDFOR
 MAKEFILE=/tmp/OpenWRT-package-softether/softethervpn/Makefile
 UPDATEMAKEFILE=/vm/1/openwrt/OpenWRT-Softether-builder/update_makefile.py
-CORES=2
+CORES=3
 
 cleaner (){
 	rm -rf $BUILDROOT
