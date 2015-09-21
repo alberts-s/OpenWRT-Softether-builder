@@ -38,27 +38,24 @@ git clone https://github.com/Alberts00/OpenWRT-package-softether /tmp/OpenWRT-pa
 python3 $UPDATEMAKEFILE $MAKEFILE
 
 construct_mips
-cp $CONFIGS/.config_ar71xx $BUILDROOT/.config
+cp $CONFIGS/$BUILDFOR/.config_ar71xx $BUILDROOT/$BUILDFOR/.config
 get_ipk
-cleaner
 
-construct_mips
-cp $CONFIGS/.config_atheros $BUILDROOT/.config
+
+
+cp $CONFIGS/$BUILDFOR/.config_atheros $BUILDROOT/$BUILDFOR/.config
 get_ipk
-cleaner
 
-construct_mips
-cp $CONFIGS/.config_brcm47xx $BUILDROOT/.config
+
+cp $CONFIGS/$BUILDFOR/.config_brcm47xx $BUILDROOT/$BUILDFOR/.config
 get_ipk
-cleaner
 
-construct_mips
-cp $CONFIGS/.config_brcm63xx $BUILDROOT/.config
+
+cp $CONFIGS/$BUILDFOR/.config_brcm63xx $BUILDROOT/$BUILDFOR/.config
 get_ipk
-cleaner
 
-construct_mips
-cp $CONFIGS/.config_ramips_24ksec $BUILDROOT/.config
+
+cp $CONFIGS/$BUILDFOR/.config_ramips_24ksec $BUILDROOT/$BUILDFOR/.config
 get_ipk
 cleaner
 
