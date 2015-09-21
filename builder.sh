@@ -24,7 +24,7 @@ construct_mips(){
 }
 
 get_ipk(){
-	cd $PATH_MAIN/$BUILDROOT
+	cd $BUILDROOT
 	make prepare -j$CORES
 	make package/softethervpn/compile V=99 -j$CORES
 	find $BUILDROOT -name "softether*.ipk" -type f -exec /bin/mv {} $PACKAGES/ \;
