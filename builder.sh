@@ -60,6 +60,9 @@ get_ipk
 
 cp $CONFIGS/$BUILDFOR/.config_ramips_24ksec $BUILDROOT/.config
 get_ipk
+
+cp $CONFIGS/$BUILDFOR/.config_x86 $BUILDROOT/.config
+get_ipk
 cleaner
 
 rm -rf /tmp/OpenWRT-package-softether
