@@ -1,7 +1,10 @@
 #!/bin/bash
 
-BUILDFOR=$1
+if [ $1 == "barrier_breaker" ]; then VER="14.07"
+elif [ $1 == "chaos_calmer" ]; then VER="15.05"
+fi
 ##barrier_breaker or chaos_calmer
+BUILDFOR=$1
 PATH_MAIN=/vm/1/openwrt
 CONFIGS=/vm/1/openwrt/OpenWRT-Softether-builder/openwrt_configs
 PACKAGES=/vm/1/openwrt/packs/$BUILDFOR/
@@ -16,7 +19,7 @@ cleaner (){
 
 construct_mips(){
 	cd $PATH_MAIN
-	svn co svn://svn.openwrt.org/openwrt/branches/$BUILDFOR
+	git clone git://git.openwrt.org/$VER/openwrt.git ./$BUILDFOR
 	cd $BUILDFOR
 	echo "src-cpy softethervpn /tmp/OpenWRT-package-softether" >> feeds.conf.default
 	./scripts/feeds update
