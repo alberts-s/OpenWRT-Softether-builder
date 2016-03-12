@@ -21,7 +21,7 @@ construct_mips(){
 	cd $PATH_MAIN
 	git clone git://git.openwrt.org/$VER/openwrt.git ./$BUILDFOR
 	cd $BUILDFOR
-	echo "src-cpy softethervpn /tmp/OpenWRT-package-softether" >> feeds.conf.default
+	echo "src-cpy softethervpn /tmp/OpenWRT-package-softether" > feeds.conf.default
 	./scripts/feeds update
 	./scripts/feeds install softethervpn
 }
