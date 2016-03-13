@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ $1 == "barrier_breaker" ]; then VER="14.07"
-elif [ $1 == "chaos_calmer" ]; then VER="15.05"
+if [[ $1 == "barrier_breaker" ]]; then VER="14.07"
+elif [[ $1 == "chaos_calmer" ]]; then VER="15.05"
 fi
 ##barrier_breaker or chaos_calmer
 BUILDFOR=$1
@@ -15,6 +15,7 @@ CORES=3
 
 cleaner (){
 	rm -rf $BUILDROOT
+	rm -rf /tmp/OpenWRT-package-softether
 }
 
 construct_mips(){
@@ -41,18 +42,12 @@ git clone https://github.com/Alberts00/OpenWRT-package-softether /tmp/OpenWRT-pa
 python3 $UPDATEMAKEFILE $MAKEFILE
 
 construct_mips
-if cp $CONFIGS/$BUILDFOR/.config_ar71xx $BUILDROOT/.config ; then get_ipk; fi
 
-if cp $CONFIGS/$BUILDFOR/.config_atheros $BUILDROOT/.config ; then get_ipk; fi
-
-if cp $CONFIGS/$BUILDFOR/.config_brcm47xx $BUILDROOT/.config ; then get_ipk; fi
-
-if cp $CONFIGS/$BUILDFOR/.config_brcm63xx $BUILDROOT/.config ; then get_ipk; fi
-
-if cp $CONFIGS/$BUILDFOR/.config_ramips_24ksec $BUILDROOT/.config ; then get_ipk; fi
-
-if cp $CONFIGS/$BUILDFOR/.config_x86 $BUILDROOT/.config ; then get_ipk; fi
+for CONFIG in $CONFIGS/$BUILDFOR/.config_*
+do
+    cp $CONFIG $BUILDROOT/.config
+    get_ipk
+done
 
 cleaner
 
-rm -rf /tmp/OpenWRT-package-softether
