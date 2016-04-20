@@ -2,13 +2,13 @@ from bs4 import BeautifulSoup
 import re
 import hashlib
 import requests as req
+import datetime
 import sys
 
 PathToMakefile = sys.argv[1]
-#PathToMakefile = "/home/alberts00/projects/OpenWRT-package-softether/softethervpn/Makefile"
 
 
-def getSource(buildnum, cycle ,vernum, datenum):
+def getSource(buildnum, cycle, vernum, datenum):
     linktosource = 'http://jp.softether-download.com/files/softether/v' + vernum + '-' + buildnum + '-' + cycle + '-' + datenum + '-tree/Source_Code/softether-src-v' + vernum + '-' + buildnum + '-' + cycle + '.tar.gz'
     hash = hashlib.md5()
 
@@ -17,7 +17,8 @@ def getSource(buildnum, cycle ,vernum, datenum):
     filesize = int(archive.headers['content-length'])
     for block in archive.iter_content(4096):
         progress += 4096
-        print(int(progress/filesize*100))
+        if int((progress/filesize)*100) - int(((progress-4096)/filesize)*100) != 0:
+            print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "Downloading:", int((progress/filesize)*100), "%")
         hash.update(block)
 
     md5 = hash.hexdigest()
@@ -28,6 +29,7 @@ def editMakefile(buildnum, cycle ,vernum, datenum, md5):
     # Makefile = open(PathToMakefile, 'r+').read()
     # print(Makefile)
     versionre = re.compile('PKG_VERSION:=[\d\.]+')
+    cyclere = re.compile('PKG_VERSION2:=[a-z\d]+')
     buildre = re.compile('PKG_RELEASE:=[\d]+')
     datere = re.compile('PKG_DATE:=[\d\.]+')
     md5re = re.compile('PKG_MD5SUM:=[a-z\d]+')
@@ -35,6 +37,7 @@ def editMakefile(buildnum, cycle ,vernum, datenum, md5):
     with open(PathToMakefile, 'r+') as f:
         for line in f:
             line = versionre.sub("PKG_VERSION:="+vernum, line)
+            line = cyclere.sub("PKG_VERSION2:="+cycle, line)
             line = buildre.sub("PKG_RELEASE:="+buildnum, line)
             line = datere.sub("PKG_DATE:=" + datenum, line)
             line = md5re.sub("PKG_MD5SUM:=" + md5, line)
